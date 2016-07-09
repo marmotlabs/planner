@@ -3,6 +3,7 @@ package eu.marmotlabs.planner.web.rest;
 import eu.marmotlabs.planner.PlannerApp;
 import eu.marmotlabs.planner.domain.Ingredient;
 import eu.marmotlabs.planner.repository.IngredientRepository;
+import eu.marmotlabs.planner.service.IngredientService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +50,9 @@ public class IngredientResourceIntTest {
     private IngredientRepository ingredientRepository;
 
     @Inject
+    private IngredientService ingredientService;
+
+    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
@@ -62,7 +66,7 @@ public class IngredientResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         IngredientResource ingredientResource = new IngredientResource();
-        ReflectionTestUtils.setField(ingredientResource, "ingredientRepository", ingredientRepository);
+        ReflectionTestUtils.setField(ingredientResource, "ingredientService", ingredientService);
         this.restIngredientMockMvc = MockMvcBuilders.standaloneSetup(ingredientResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -133,7 +137,8 @@ public class IngredientResourceIntTest {
     @Transactional
     public void updateIngredient() throws Exception {
         // Initialize the database
-        ingredientRepository.saveAndFlush(ingredient);
+        ingredientService.save(ingredient);
+
         int databaseSizeBeforeUpdate = ingredientRepository.findAll().size();
 
         // Update the ingredient
@@ -157,7 +162,8 @@ public class IngredientResourceIntTest {
     @Transactional
     public void deleteIngredient() throws Exception {
         // Initialize the database
-        ingredientRepository.saveAndFlush(ingredient);
+        ingredientService.save(ingredient);
+
         int databaseSizeBeforeDelete = ingredientRepository.findAll().size();
 
         // Get the ingredient

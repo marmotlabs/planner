@@ -20,7 +20,7 @@
   ],
   "changelogDate": "20160709195704",
   "dto": "no",
-  "pagination": "no",
-  "service": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
   "entityTableName": "product"
 }

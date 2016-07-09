@@ -2,10 +2,13 @@ package eu.marmotlabs.planner.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import eu.marmotlabs.planner.domain.Product;
-import eu.marmotlabs.planner.repository.ProductRepository;
+import eu.marmotlabs.planner.service.ProductService;
 import eu.marmotlabs.planner.web.rest.util.HeaderUtil;
+import eu.marmotlabs.planner.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +32,7 @@ public class ProductResource {
     private final Logger log = LoggerFactory.getLogger(ProductResource.class);
         
     @Inject
-    private ProductRepository productRepository;
+    private ProductService productService;
     
     /**
      * POST  /products : Create a new product.
@@ -47,7 +50,7 @@ public class ProductResource {
         if (product.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("product", "idexists", "A new product cannot already have an ID")).body(null);
         }
-        Product result = productRepository.save(product);
+        Product result = productService.save(product);
         return ResponseEntity.created(new URI("/api/products/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("product", result.getId().toString()))
             .body(result);
@@ -71,7 +74,7 @@ public class ProductResource {
         if (product.getId() == null) {
             return createProduct(product);
         }
-        Product result = productRepository.save(product);
+        Product result = productService.save(product);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("product", product.getId().toString()))
             .body(result);
@@ -80,16 +83,20 @@ public class ProductResource {
     /**
      * GET  /products : get all the products.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of products in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/products",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Product> getAllProducts() {
-        log.debug("REST request to get all Products");
-        List<Product> products = productRepository.findAll();
-        return products;
+    public ResponseEntity<List<Product>> getAllProducts(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Products");
+        Page<Product> page = productService.findAll(pageable); 
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -104,7 +111,7 @@ public class ProductResource {
     @Timed
     public ResponseEntity<Product> getProduct(@PathVariable Long id) {
         log.debug("REST request to get Product : {}", id);
-        Product product = productRepository.findOne(id);
+        Product product = productService.findOne(id);
         return Optional.ofNullable(product)
             .map(result -> new ResponseEntity<>(
                 result,
@@ -124,7 +131,7 @@ public class ProductResource {
     @Timed
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         log.debug("REST request to delete Product : {}", id);
-        productRepository.delete(id);
+        productService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("product", id.toString())).build();
     }
 

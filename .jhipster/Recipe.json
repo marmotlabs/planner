@@ -64,7 +64,7 @@
   ],
   "changelogDate": "20160709192939",
   "dto": "no",
-  "pagination": "no",
-  "service": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
   "entityTableName": "recipe"
 }

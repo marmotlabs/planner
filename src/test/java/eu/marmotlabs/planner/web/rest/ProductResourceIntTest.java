@@ -3,6 +3,7 @@ package eu.marmotlabs.planner.web.rest;
 import eu.marmotlabs.planner.PlannerApp;
 import eu.marmotlabs.planner.domain.Product;
 import eu.marmotlabs.planner.repository.ProductRepository;
+import eu.marmotlabs.planner.service.ProductService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +51,9 @@ public class ProductResourceIntTest {
     private ProductRepository productRepository;
 
     @Inject
+    private ProductService productService;
+
+    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
@@ -63,7 +67,7 @@ public class ProductResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         ProductResource productResource = new ProductResource();
-        ReflectionTestUtils.setField(productResource, "productRepository", productRepository);
+        ReflectionTestUtils.setField(productResource, "productService", productService);
         this.restProductMockMvc = MockMvcBuilders.standaloneSetup(productResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -174,7 +178,8 @@ public class ProductResourceIntTest {
     @Transactional
     public void updateProduct() throws Exception {
         // Initialize the database
-        productRepository.saveAndFlush(product);
+        productService.save(product);
+
         int databaseSizeBeforeUpdate = productRepository.findAll().size();
 
         // Update the product
@@ -200,7 +205,8 @@ public class ProductResourceIntTest {
     @Transactional
     public void deleteProduct() throws Exception {
         // Initialize the database
-        productRepository.saveAndFlush(product);
+        productService.save(product);
+
         int databaseSizeBeforeDelete = productRepository.findAll().size();
 
         // Get the product

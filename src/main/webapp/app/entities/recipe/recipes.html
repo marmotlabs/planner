@@ -17,15 +17,14 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span translate="global.field.id">ID</span></th>
-                    <th><span translate="plannerApp.recipe.title">Title</span></th>
-                    <th><span translate="plannerApp.recipe.description">Description</span></th>
-                    <th><span translate="plannerApp.recipe.category">Category</span></th>
-                    <th><span translate="plannerApp.recipe.activeRequiredTime">Active Required Time</span></th>
-                    <th><span translate="plannerApp.recipe.picture">Picture</span></th>
-                    <th><span translate="plannerApp.recipe.portions">Portions</span></th>
-                    <th><span translate="plannerApp.recipe.ingredient">Ingredient</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="title"><span translate="plannerApp.recipe.title">Title</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="description"><span translate="plannerApp.recipe.description">Description</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="category"><span translate="plannerApp.recipe.category">Category</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="activeRequiredTime"><span translate="plannerApp.recipe.activeRequiredTime">Active Required Time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="picture"><span translate="plannerApp.recipe.picture">Picture</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="portions"><span translate="plannerApp.recipe.portions">Portions</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -38,11 +37,6 @@
                     <td>{{recipe.activeRequiredTime}}</td>
                     <td>{{recipe.picture}}</td>
                     <td>{{recipe.portions}}</td>
-                    <td>
-                        <span ng-repeat="ingredient in recipe.ingredients">
-                            <a class="form-control-static" ui-sref="ingredient-detail({id: {{ingredient.id}}})">{{ingredient.name}}</a>{{$last ? '' : ', '}}
-                        </span>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
@@ -68,5 +62,9 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

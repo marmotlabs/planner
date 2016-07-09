@@ -2,10 +2,13 @@ package eu.marmotlabs.planner.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import eu.marmotlabs.planner.domain.Recipe;
-import eu.marmotlabs.planner.repository.RecipeRepository;
+import eu.marmotlabs.planner.service.RecipeService;
 import eu.marmotlabs.planner.web.rest.util.HeaderUtil;
+import eu.marmotlabs.planner.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +32,7 @@ public class RecipeResource {
     private final Logger log = LoggerFactory.getLogger(RecipeResource.class);
         
     @Inject
-    private RecipeRepository recipeRepository;
+    private RecipeService recipeService;
     
     /**
      * POST  /recipes : Create a new recipe.
@@ -47,7 +50,7 @@ public class RecipeResource {
         if (recipe.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("recipe", "idexists", "A new recipe cannot already have an ID")).body(null);
         }
-        Recipe result = recipeRepository.save(recipe);
+        Recipe result = recipeService.save(recipe);
         return ResponseEntity.created(new URI("/api/recipes/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("recipe", result.getId().toString()))
             .body(result);
@@ -71,7 +74,7 @@ public class RecipeResource {
         if (recipe.getId() == null) {
             return createRecipe(recipe);
         }
-        Recipe result = recipeRepository.save(recipe);
+        Recipe result = recipeService.save(recipe);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("recipe", recipe.getId().toString()))
             .body(result);
@@ -80,16 +83,20 @@ public class RecipeResource {
     /**
      * GET  /recipes : get all the recipes.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of recipes in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/recipes",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Recipe> getAllRecipes() {
-        log.debug("REST request to get all Recipes");
-        List<Recipe> recipes = recipeRepository.findAllWithEagerRelationships();
-        return recipes;
+    public ResponseEntity<List<Recipe>> getAllRecipes(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Recipes");
+        Page<Recipe> page = recipeService.findAll(pageable); 
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/recipes");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -104,7 +111,7 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<Recipe> getRecipe(@PathVariable Long id) {
         log.debug("REST request to get Recipe : {}", id);
-        Recipe recipe = recipeRepository.findOneWithEagerRelationships(id);
+        Recipe recipe = recipeService.findOne(id);
         return Optional.ofNullable(recipe)
             .map(result -> new ResponseEntity<>(
                 result,
@@ -124,7 +131,7 @@ public class RecipeResource {
     @Timed
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
         log.debug("REST request to delete Recipe : {}", id);
-        recipeRepository.delete(id);
+        recipeService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("recipe", id.toString())).build();
     }
 

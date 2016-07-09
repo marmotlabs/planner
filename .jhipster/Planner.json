@@ -36,7 +36,7 @@
   ],
   "changelogDate": "20160709192940",
   "dto": "no",
-  "pagination": "no",
-  "service": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
   "entityTableName": "planner"
 }

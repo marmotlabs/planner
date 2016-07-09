@@ -2,10 +2,13 @@ package eu.marmotlabs.planner.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import eu.marmotlabs.planner.domain.Planner;
-import eu.marmotlabs.planner.repository.PlannerRepository;
+import eu.marmotlabs.planner.service.PlannerService;
 import eu.marmotlabs.planner.web.rest.util.HeaderUtil;
+import eu.marmotlabs.planner.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +32,7 @@ public class PlannerResource {
     private final Logger log = LoggerFactory.getLogger(PlannerResource.class);
         
     @Inject
-    private PlannerRepository plannerRepository;
+    private PlannerService plannerService;
     
     /**
      * POST  /planners : Create a new planner.
@@ -47,7 +50,7 @@ public class PlannerResource {
         if (planner.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("planner", "idexists", "A new planner cannot already have an ID")).body(null);
         }
-        Planner result = plannerRepository.save(planner);
+        Planner result = plannerService.save(planner);
         return ResponseEntity.created(new URI("/api/planners/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("planner", result.getId().toString()))
             .body(result);
@@ -71,7 +74,7 @@ public class PlannerResource {
         if (planner.getId() == null) {
             return createPlanner(planner);
         }
-        Planner result = plannerRepository.save(planner);
+        Planner result = plannerService.save(planner);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("planner", planner.getId().toString()))
             .body(result);
@@ -80,16 +83,20 @@ public class PlannerResource {
     /**
      * GET  /planners : get all the planners.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of planners in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/planners",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Planner> getAllPlanners() {
-        log.debug("REST request to get all Planners");
-        List<Planner> planners = plannerRepository.findAllWithEagerRelationships();
-        return planners;
+    public ResponseEntity<List<Planner>> getAllPlanners(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Planners");
+        Page<Planner> page = plannerService.findAll(pageable); 
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/planners");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -104,7 +111,7 @@ public class PlannerResource {
     @Timed
     public ResponseEntity<Planner> getPlanner(@PathVariable Long id) {
         log.debug("REST request to get Planner : {}", id);
-        Planner planner = plannerRepository.findOneWithEagerRelationships(id);
+        Planner planner = plannerService.findOne(id);
         return Optional.ofNullable(planner)
             .map(result -> new ResponseEntity<>(
                 result,
@@ -124,7 +131,7 @@ public class PlannerResource {
     @Timed
     public ResponseEntity<Void> deletePlanner(@PathVariable Long id) {
         log.debug("REST request to delete Planner : {}", id);
-        plannerRepository.delete(id);
+        plannerService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("planner", id.toString())).build();
     }
 

@@ -2,10 +2,13 @@ package eu.marmotlabs.planner.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import eu.marmotlabs.planner.domain.Ingredient;
-import eu.marmotlabs.planner.repository.IngredientRepository;
+import eu.marmotlabs.planner.service.IngredientService;
 import eu.marmotlabs.planner.web.rest.util.HeaderUtil;
+import eu.marmotlabs.planner.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,7 +31,7 @@ public class IngredientResource {
     private final Logger log = LoggerFactory.getLogger(IngredientResource.class);
         
     @Inject
-    private IngredientRepository ingredientRepository;
+    private IngredientService ingredientService;
     
     /**
      * POST  /ingredients : Create a new ingredient.
@@ -46,7 +49,7 @@ public class IngredientResource {
         if (ingredient.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("ingredient", "idexists", "A new ingredient cannot already have an ID")).body(null);
         }
-        Ingredient result = ingredientRepository.save(ingredient);
+        Ingredient result = ingredientService.save(ingredient);
         return ResponseEntity.created(new URI("/api/ingredients/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("ingredient", result.getId().toString()))
             .body(result);
@@ -70,7 +73,7 @@ public class IngredientResource {
         if (ingredient.getId() == null) {
             return createIngredient(ingredient);
         }
-        Ingredient result = ingredientRepository.save(ingredient);
+        Ingredient result = ingredientService.save(ingredient);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("ingredient", ingredient.getId().toString()))
             .body(result);
@@ -79,16 +82,20 @@ public class IngredientResource {
     /**
      * GET  /ingredients : get all the ingredients.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of ingredients in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/ingredients",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Ingredient> getAllIngredients() {
-        log.debug("REST request to get all Ingredients");
-        List<Ingredient> ingredients = ingredientRepository.findAll();
-        return ingredients;
+    public ResponseEntity<List<Ingredient>> getAllIngredients(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Ingredients");
+        Page<Ingredient> page = ingredientService.findAll(pageable); 
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/ingredients");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -103,7 +110,7 @@ public class IngredientResource {
     @Timed
     public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id) {
         log.debug("REST request to get Ingredient : {}", id);
-        Ingredient ingredient = ingredientRepository.findOne(id);
+        Ingredient ingredient = ingredientService.findOne(id);
         return Optional.ofNullable(ingredient)
             .map(result -> new ResponseEntity<>(
                 result,
@@ -123,7 +130,7 @@ public class IngredientResource {
     @Timed
     public ResponseEntity<Void> deleteIngredient(@PathVariable Long id) {
         log.debug("REST request to delete Ingredient : {}", id);
-        ingredientRepository.delete(id);
+        ingredientService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("ingredient", id.toString())).build();
     }
 

@@ -3,6 +3,7 @@ package eu.marmotlabs.planner.web.rest;
 import eu.marmotlabs.planner.PlannerApp;
 import eu.marmotlabs.planner.domain.Planner;
 import eu.marmotlabs.planner.repository.PlannerRepository;
+import eu.marmotlabs.planner.service.PlannerService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -58,6 +59,9 @@ public class PlannerResourceIntTest {
     private PlannerRepository plannerRepository;
 
     @Inject
+    private PlannerService plannerService;
+
+    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
@@ -71,7 +75,7 @@ public class PlannerResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         PlannerResource plannerResource = new PlannerResource();
-        ReflectionTestUtils.setField(plannerResource, "plannerRepository", plannerRepository);
+        ReflectionTestUtils.setField(plannerResource, "plannerService", plannerService);
         this.restPlannerMockMvc = MockMvcBuilders.standaloneSetup(plannerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setMessageConverters(jacksonMessageConverter).build();
@@ -182,7 +186,8 @@ public class PlannerResourceIntTest {
     @Transactional
     public void updatePlanner() throws Exception {
         // Initialize the database
-        plannerRepository.saveAndFlush(planner);
+        plannerService.save(planner);
+
         int databaseSizeBeforeUpdate = plannerRepository.findAll().size();
 
         // Update the planner
@@ -208,7 +213,8 @@ public class PlannerResourceIntTest {
     @Transactional
     public void deletePlanner() throws Exception {
         // Initialize the database
-        plannerRepository.saveAndFlush(planner);
+        plannerService.save(planner);
+
         int databaseSizeBeforeDelete = plannerRepository.findAll().size();
 
         // Get the planner
