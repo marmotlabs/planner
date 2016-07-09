@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity Planner.
+    -->
+    <changeSet id="20160709192940-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="planner"
+                                 constraintName="fk_planner_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="planners_id"
+                                 baseTableName="planner_recipe"
+                                 constraintName="fk_planner_recipe_recipe_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="planner"/>
+        <addForeignKeyConstraint baseColumnNames="recipes_id"
+                                 baseTableName="planner_recipe"
+                                 constraintName="fk_planner_recipe_planner_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="recipe"/>
+        
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,35 @@
+{
+  "relationships": [
+    {
+      "relationshipId": 1,
+      "relationshipType": "many-to-many",
+      "relationshipName": "recipe",
+      "otherEntityName": "recipe",
+      "ownerSide": false,
+      "otherEntityRelationshipName": "ingredient"
+    }
+  ],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "unitOfMeasure",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "changelogDate": "20160709192938",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "entityTableName": "ingredient"
+}

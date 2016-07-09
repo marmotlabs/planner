@@ -1,0 +1,72 @@
+<div>
+    <h2 translate="plannerApp.recipe.home.title">Recipes</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="recipe.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  translate="plannerApp.recipe.home.createLabel">
+                        Create new Recipe
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span translate="global.field.id">ID</span></th>
+                    <th><span translate="plannerApp.recipe.title">Title</span></th>
+                    <th><span translate="plannerApp.recipe.description">Description</span></th>
+                    <th><span translate="plannerApp.recipe.category">Category</span></th>
+                    <th><span translate="plannerApp.recipe.activeRequiredTime">Active Required Time</span></th>
+                    <th><span translate="plannerApp.recipe.picture">Picture</span></th>
+                    <th><span translate="plannerApp.recipe.portions">Portions</span></th>
+                    <th><span translate="plannerApp.recipe.ingredient">Ingredient</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="recipe in vm.recipes track by recipe.id">
+                    <td><a ui-sref="recipe-detail({id:recipe.id})">{{recipe.id}}</a></td>
+                    <td>{{recipe.title}}</td>
+                    <td>{{recipe.description}}</td>
+                    <td translate="{{'plannerApp.Category.' + recipe.category}}">{{recipe.category}}</td>
+                    <td>{{recipe.activeRequiredTime}}</td>
+                    <td>{{recipe.picture}}</td>
+                    <td>{{recipe.portions}}</td>
+                    <td>
+                        <span ng-repeat="ingredient in recipe.ingredients">
+                            <a class="form-control-static" ui-sref="ingredient-detail({id: {{ingredient.id}}})">{{ingredient.name}}</a>{{$last ? '' : ', '}}
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="recipe-detail({id:recipe.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="recipe.edit({id:recipe.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="recipe.delete({id:recipe.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+    "plannerApp": {
+        "Category" : {
+            "null": "",
+            "VEGAN": "VEGAN",
+            "RAW_VEGAN": "RAW_VEGAN",
+            "NO_RESTRICTION": "NO_RESTRICTION"
+        }
+    }
+}

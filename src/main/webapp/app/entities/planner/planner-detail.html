@@ -1,0 +1,32 @@
+
+<div>
+    <h2><span translate="plannerApp.planner.detail.title">Planner</span> {{vm.planner.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span translate="plannerApp.planner.name">Name</span></dt>
+        <dd>
+            <span>{{vm.planner.name}}</span>
+        </dd>
+        <dt><span translate="plannerApp.planner.date">Date</span></dt>
+        <dd>
+            <span>{{vm.planner.date | date:'medium'}}</span>
+        </dd>
+        <dt><span translate="plannerApp.planner.user">User</span></dt>
+        <dd>
+            {{vm.planner.user.login}}
+        </dd>
+        <dt><span translate="plannerApp.planner.recipe">Recipe</span></dt>
+        <dd>
+            <span ng-repeat="recipe in vm.planner.recipes">
+                <a ui-sref="recipe-detail({id: {{recipe.id}}})">{{recipe.title}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

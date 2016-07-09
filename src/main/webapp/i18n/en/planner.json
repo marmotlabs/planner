@@ -1,0 +1,25 @@
+{
+    "plannerApp": {
+        "planner" : {
+            "home": {
+                "title": "Planners",
+                "createLabel": "Create a new Planner",
+                "createOrEditLabel": "Create or edit a Planner",
+                "search": "Search for Planner"
+            },
+            "created": "A new Planner is created with identifier {{ param }}",
+            "updated": "A Planner is updated with identifier {{ param }}",
+            "deleted": "A Planner is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Planner {{ id }}?"
+            },
+            "detail": {
+                "title": "Planner"
+            },
+            "name": "Name",
+            "date": "Date",
+            "user": "User",
+            "recipe": "Recipe"
+        }
+    }
+}

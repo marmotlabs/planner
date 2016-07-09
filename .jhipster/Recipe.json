@@ -1,0 +1,70 @@
+{
+  "relationships": [
+    {
+      "relationshipId": 1,
+      "relationshipType": "many-to-many",
+      "relationshipName": "ingredient",
+      "otherEntityName": "ingredient",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
+      "relationshipId": 2,
+      "relationshipType": "many-to-many",
+      "relationshipName": "planner",
+      "otherEntityName": "planner",
+      "ownerSide": false,
+      "otherEntityRelationshipName": "recipe"
+    }
+  ],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "category",
+      "fieldType": "Category",
+      "fieldValues": "VEGAN,RAW_VEGAN,NO_RESTRICTION",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "activeRequiredTime",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldId": 5,
+      "fieldName": "picture",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 6,
+      "fieldName": "portions",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "changelogDate": "20160709192939",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "entityTableName": "recipe"
+}
