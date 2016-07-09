@@ -1,0 +1,38 @@
+enum  Category {
+    VEGAN, RAW_VEGAN, NO_RESTRICTION
+}
+
+entity Ingredient {
+    name String required,
+    unitOfMeasure String required
+}
+
+entity Recipe {
+    title String required,
+    description String required,
+    category Category required,
+    activeRequiredTime Integer,
+    picture String,
+    portions Integer required
+}
+
+entity Planner {
+    name String required,
+    date ZonedDateTime required
+}
+
+
+
+
+
+relationship ManyToOne {
+    Planner{user(login)} to User
+}
+
+relationship ManyToMany {
+    Planner{recipe(title)} to Recipe{planner(name)}
+}
+
+relationship ManyToMany {
+    Recipe{ingredient(name)} to Ingredient{recipe(name)}
+}
