@@ -8,6 +8,8 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+import eu.marmotlabs.planner.domain.enumeration.UnitOfMeasure;
+
 /**
  * A Product.
  */
@@ -27,8 +29,9 @@ public class Product implements Serializable {
     private String name;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "unit_of_measure", nullable = false)
-    private String unitOfMeasure;
+    private UnitOfMeasure unitOfMeasure;
 
     public Long getId() {
         return id;
@@ -46,11 +49,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public String getUnitOfMeasure() {
+    public UnitOfMeasure getUnitOfMeasure() {
         return unitOfMeasure;
     }
 
-    public void setUnitOfMeasure(String unitOfMeasure) {
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
         this.unitOfMeasure = unitOfMeasure;
     }
 

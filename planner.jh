@@ -2,9 +2,13 @@ enum  Category {
     VEGAN, RAW_VEGAN, NO_RESTRICTION
 }
 
+enum UnitOfMeasure {
+    ML, G, PC
+}
+
 entity Product {
     name String required,
-    unitOfMeasure String required
+    unitOfMeasure UnitOfMeasure required
 }
 
 entity Recipe {

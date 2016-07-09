@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import eu.marmotlabs.planner.domain.enumeration.UnitOfMeasure;
 
 /**
  * Test class for the ProductResource REST controller.
@@ -44,8 +45,9 @@ public class ProductResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAA";
     private static final String UPDATED_NAME = "BBBBB";
-    private static final String DEFAULT_UNIT_OF_MEASURE = "AAAAA";
-    private static final String UPDATED_UNIT_OF_MEASURE = "BBBBB";
+
+    private static final UnitOfMeasure DEFAULT_UNIT_OF_MEASURE = UnitOfMeasure.ML;
+    private static final UnitOfMeasure UPDATED_UNIT_OF_MEASURE = UnitOfMeasure.G;
 
     @Inject
     private ProductRepository productRepository;

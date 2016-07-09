@@ -12,7 +12,8 @@
     {
       "fieldId": 2,
       "fieldName": "unitOfMeasure",
-      "fieldType": "String",
+      "fieldType": "UnitOfMeasure",
+      "fieldValues": "ML,G,PC",
       "fieldValidateRules": [
         "required"
       ]

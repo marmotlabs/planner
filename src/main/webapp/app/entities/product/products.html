@@ -28,7 +28,7 @@
                 <tr ng-repeat="product in vm.products track by product.id">
                     <td><a ui-sref="product-detail({id:product.id})">{{product.id}}</a></td>
                     <td>{{product.name}}</td>
-                    <td>{{product.unitOfMeasure}}</td>
+                    <td translate="{{'plannerApp.UnitOfMeasure.' + product.unitOfMeasure}}">{{product.unitOfMeasure}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

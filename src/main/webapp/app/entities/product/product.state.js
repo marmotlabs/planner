@@ -46,6 +46,7 @@
                 }],
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('product');
+                    $translatePartialLoader.addPart('unitOfMeasure');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
@@ -68,6 +69,7 @@
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('product');
+                    $translatePartialLoader.addPart('unitOfMeasure');
                     return $translate.refresh();
                 }],
                 entity: ['$stateParams', 'Product', function($stateParams, Product) {

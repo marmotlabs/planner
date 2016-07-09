@@ -27,9 +27,11 @@
         </div>
         <div class="form-group">
             <label class="control-label" translate="plannerApp.product.unitOfMeasure" for="field_unitOfMeasure">Unit Of Measure</label>
-            <input type="text" class="form-control" name="unitOfMeasure" id="field_unitOfMeasure"
-                    ng-model="vm.product.unitOfMeasure"
-                    required />
+            <select class="form-control" name="unitOfMeasure" ng-model="vm.product.unitOfMeasure" id="field_unitOfMeasure" required>
+                <option value="ML" translate="plannerApp.UnitOfMeasure.ML">ML</option>
+                <option value="G" translate="plannerApp.UnitOfMeasure.G">G</option>
+                <option value="PC" translate="plannerApp.UnitOfMeasure.PC">PC</option>
+            </select>
             <div ng-show="editForm.unitOfMeasure.$invalid">
                 <p class="help-block"
                     ng-show="editForm.unitOfMeasure.$error.required" translate="entity.validation.required">
