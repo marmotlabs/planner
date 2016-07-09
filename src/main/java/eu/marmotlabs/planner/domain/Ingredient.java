@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,13 +24,11 @@ public class Ingredient implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "quantity")
+    private Integer quantity;
 
-    @NotNull
-    @Column(name = "unit_of_measure", nullable = false)
-    private String unitOfMeasure;
+    @ManyToOne
+    private Product product;
 
     @ManyToMany(mappedBy = "ingredients")
     @JsonIgnore
@@ -46,20 +43,20 @@ public class Ingredient implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
-    public String getUnitOfMeasure() {
-        return unitOfMeasure;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setUnitOfMeasure(String unitOfMeasure) {
-        this.unitOfMeasure = unitOfMeasure;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Set<Recipe> getRecipes() {
@@ -94,8 +91,7 @@ public class Ingredient implements Serializable {
     public String toString() {
         return "Ingredient{" +
             "id=" + id +
-            ", name='" + name + "'" +
-            ", unitOfMeasure='" + unitOfMeasure + "'" +
+            ", quantity='" + quantity + "'" +
             '}';
     }
 }

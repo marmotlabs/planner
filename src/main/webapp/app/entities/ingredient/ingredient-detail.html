@@ -4,13 +4,13 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span translate="plannerApp.ingredient.name">Name</span></dt>
+        <dt><span translate="plannerApp.ingredient.quantity">Quantity</span></dt>
         <dd>
-            <span>{{vm.ingredient.name}}</span>
+            <span>{{vm.ingredient.quantity}}</span>
         </dd>
-        <dt><span translate="plannerApp.ingredient.unitOfMeasure">Unit Of Measure</span></dt>
+        <dt><span translate="plannerApp.ingredient.product">Product</span></dt>
         <dd>
-            <span>{{vm.ingredient.unitOfMeasure}}</span>
+            <a ui-sref="product-detail({id:vm.ingredient.product.id})">{{vm.ingredient.product.name}}</a>
         </dd>
     </dl>
 

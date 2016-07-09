@@ -5,14 +5,15 @@
         .module('plannerApp')
         .controller('IngredientDialogController', IngredientDialogController);
 
-    IngredientDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Ingredient', 'Recipe'];
+    IngredientDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Ingredient', 'Product', 'Recipe'];
 
-    function IngredientDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Ingredient, Recipe) {
+    function IngredientDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Ingredient, Product, Recipe) {
         var vm = this;
 
         vm.ingredient = entity;
         vm.clear = clear;
         vm.save = save;
+        vm.products = Product.query();
         vm.recipes = Recipe.query();
 
         $timeout(function (){

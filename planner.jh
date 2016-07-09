@@ -2,7 +2,7 @@ enum  Category {
     VEGAN, RAW_VEGAN, NO_RESTRICTION
 }
 
-entity Ingredient {
+entity Product {
     name String required,
     unitOfMeasure String required
 }
@@ -16,6 +16,10 @@ entity Recipe {
     portions Integer required
 }
 
+entity Ingredient {
+    quantity Integer
+}
+
 entity Planner {
     name String required,
     date ZonedDateTime required
@@ -23,7 +27,9 @@ entity Planner {
 
 
 
-
+relationship ManyToOne {
+    Ingredient{product(name)} to Product
+}
 
 relationship ManyToOne {
     Planner{user(login)} to User

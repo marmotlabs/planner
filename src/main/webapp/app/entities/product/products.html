@@ -1,13 +1,13 @@
 <div>
-    <h2 translate="plannerApp.ingredient.home.title">Ingredients</h2>
+    <h2 translate="plannerApp.product.home.title">Products</h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="ingredient.new" >
+                <button class="btn btn-primary" ui-sref="product.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  translate="plannerApp.ingredient.home.createLabel">
-                        Create new Ingredient
+                    <span  translate="plannerApp.product.home.createLabel">
+                        Create new Product
                     </span>
                 </button>
             </div>
@@ -19,34 +19,32 @@
             <thead>
                 <tr>
                     <th><span translate="global.field.id">ID</span></th>
-                    <th><span translate="plannerApp.ingredient.quantity">Quantity</span></th>
-                    <th><span translate="plannerApp.ingredient.product">Product</span></th>
+                    <th><span translate="plannerApp.product.name">Name</span></th>
+                    <th><span translate="plannerApp.product.unitOfMeasure">Unit Of Measure</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="ingredient in vm.ingredients track by ingredient.id">
-                    <td><a ui-sref="ingredient-detail({id:ingredient.id})">{{ingredient.id}}</a></td>
-                    <td>{{ingredient.quantity}}</td>
-                    <td>
-                        <a ui-sref="product-detail({id:ingredient.product.id})">{{ingredient.product.name}}</a>
-                    </td>
+                <tr ng-repeat="product in vm.products track by product.id">
+                    <td><a ui-sref="product-detail({id:product.id})">{{product.id}}</a></td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.unitOfMeasure}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    ui-sref="ingredient-detail({id:ingredient.id})"
+                                    ui-sref="product-detail({id:product.id})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="ingredient.edit({id:ingredient.id})"
+                                    ui-sref="product.edit({id:product.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="ingredient.delete({id:ingredient.id})"
+                                    ui-sref="product.delete({id:product.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>

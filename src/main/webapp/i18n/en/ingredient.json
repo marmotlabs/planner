@@ -16,8 +16,8 @@
             "detail": {
                 "title": "Ingredient"
             },
-            "name": "Name",
-            "unitOfMeasure": "Unit Of Measure",
+            "quantity": "Quantity",
+            "product": "Product",
             "recipe": "Recipe"
         }
     }

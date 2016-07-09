@@ -1,5 +1,5 @@
 
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -14,30 +14,18 @@
                     ng-model="vm.ingredient.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" translate="plannerApp.ingredient.name" for="field_name">Name</label>
-            <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="vm.ingredient.name"
-                    required />
-            <div ng-show="editForm.name.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.name.$error.required" translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" translate="plannerApp.ingredient.unitOfMeasure" for="field_unitOfMeasure">Unit Of Measure</label>
-            <input type="text" class="form-control" name="unitOfMeasure" id="field_unitOfMeasure"
-                    ng-model="vm.ingredient.unitOfMeasure"
-                    required />
-            <div ng-show="editForm.unitOfMeasure.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.unitOfMeasure.$error.required" translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
+            <label class="control-label" translate="plannerApp.ingredient.quantity" for="field_quantity">Quantity</label>
+            <input type="number" class="form-control" name="quantity" id="field_quantity"
+                    ng-model="vm.ingredient.quantity"
+                     />
         </div>
 
+        <div class="form-group">
+            <label translate="plannerApp.ingredient.product" for="field_product">Product</label>
+            <select class="form-control" id="field_product" name="product" ng-model="vm.ingredient.product" ng-options="product as product.name for product in vm.products track by product.id">
+                <option value=""></option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">

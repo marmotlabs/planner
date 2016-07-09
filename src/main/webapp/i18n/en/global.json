@@ -10,6 +10,7 @@
                 "ingredient": "Ingredient",
                 "recipe": "Recipe",
                 "planner": "Planner",
+                "product": "Product",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

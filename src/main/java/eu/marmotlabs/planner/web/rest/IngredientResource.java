@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -42,7 +41,7 @@ public class IngredientResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Ingredient> createIngredient(@Valid @RequestBody Ingredient ingredient) throws URISyntaxException {
+    public ResponseEntity<Ingredient> createIngredient(@RequestBody Ingredient ingredient) throws URISyntaxException {
         log.debug("REST request to save Ingredient : {}", ingredient);
         if (ingredient.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("ingredient", "idexists", "A new ingredient cannot already have an ID")).body(null);
@@ -66,7 +65,7 @@ public class IngredientResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Ingredient> updateIngredient(@Valid @RequestBody Ingredient ingredient) throws URISyntaxException {
+    public ResponseEntity<Ingredient> updateIngredient(@RequestBody Ingredient ingredient) throws URISyntaxException {
         log.debug("REST request to update Ingredient : {}", ingredient);
         if (ingredient.getId() == null) {
             return createIngredient(ingredient);

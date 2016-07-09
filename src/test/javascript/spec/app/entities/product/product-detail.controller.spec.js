@@ -2,37 +2,33 @@
 
 describe('Controller Tests', function() {
 
-    describe('Ingredient Management Detail Controller', function() {
+    describe('Product Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockIngredient, MockProduct, MockRecipe;
+        var MockEntity, MockProduct;
         var createController;
 
         beforeEach(inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
             MockEntity = jasmine.createSpy('MockEntity');
-            MockIngredient = jasmine.createSpy('MockIngredient');
             MockProduct = jasmine.createSpy('MockProduct');
-            MockRecipe = jasmine.createSpy('MockRecipe');
             
 
             var locals = {
                 '$scope': $scope,
                 '$rootScope': $rootScope,
                 'entity': MockEntity ,
-                'Ingredient': MockIngredient,
-                'Product': MockProduct,
-                'Recipe': MockRecipe
+                'Product': MockProduct
             };
             createController = function() {
-                $injector.get('$controller')("IngredientDetailController", locals);
+                $injector.get('$controller')("ProductDetailController", locals);
             };
         }));
 
 
         describe('Root Scope Listening', function() {
             it('Unregisters root scope listener upon scope destruction', function() {
-                var eventType = 'plannerApp:ingredientUpdate';
+                var eventType = 'plannerApp:productUpdate';
 
                 createController();
                 expect($rootScope.$$listenerCount[eventType]).toEqual(1);

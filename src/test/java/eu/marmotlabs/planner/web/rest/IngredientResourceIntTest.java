@@ -41,10 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 public class IngredientResourceIntTest {
 
-    private static final String DEFAULT_NAME = "AAAAA";
-    private static final String UPDATED_NAME = "BBBBB";
-    private static final String DEFAULT_UNIT_OF_MEASURE = "AAAAA";
-    private static final String UPDATED_UNIT_OF_MEASURE = "BBBBB";
+
+    private static final Integer DEFAULT_QUANTITY = 1;
+    private static final Integer UPDATED_QUANTITY = 2;
 
     @Inject
     private IngredientRepository ingredientRepository;
@@ -72,8 +71,7 @@ public class IngredientResourceIntTest {
     @Before
     public void initTest() {
         ingredient = new Ingredient();
-        ingredient.setName(DEFAULT_NAME);
-        ingredient.setUnitOfMeasure(DEFAULT_UNIT_OF_MEASURE);
+        ingredient.setQuantity(DEFAULT_QUANTITY);
     }
 
     @Test
@@ -92,44 +90,7 @@ public class IngredientResourceIntTest {
         List<Ingredient> ingredients = ingredientRepository.findAll();
         assertThat(ingredients).hasSize(databaseSizeBeforeCreate + 1);
         Ingredient testIngredient = ingredients.get(ingredients.size() - 1);
-        assertThat(testIngredient.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testIngredient.getUnitOfMeasure()).isEqualTo(DEFAULT_UNIT_OF_MEASURE);
-    }
-
-    @Test
-    @Transactional
-    public void checkNameIsRequired() throws Exception {
-        int databaseSizeBeforeTest = ingredientRepository.findAll().size();
-        // set the field null
-        ingredient.setName(null);
-
-        // Create the Ingredient, which fails.
-
-        restIngredientMockMvc.perform(post("/api/ingredients")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(ingredient)))
-                .andExpect(status().isBadRequest());
-
-        List<Ingredient> ingredients = ingredientRepository.findAll();
-        assertThat(ingredients).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkUnitOfMeasureIsRequired() throws Exception {
-        int databaseSizeBeforeTest = ingredientRepository.findAll().size();
-        // set the field null
-        ingredient.setUnitOfMeasure(null);
-
-        // Create the Ingredient, which fails.
-
-        restIngredientMockMvc.perform(post("/api/ingredients")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(ingredient)))
-                .andExpect(status().isBadRequest());
-
-        List<Ingredient> ingredients = ingredientRepository.findAll();
-        assertThat(ingredients).hasSize(databaseSizeBeforeTest);
+        assertThat(testIngredient.getQuantity()).isEqualTo(DEFAULT_QUANTITY);
     }
 
     @Test
@@ -143,8 +104,7 @@ public class IngredientResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(ingredient.getId().intValue())))
-                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].unitOfMeasure").value(hasItem(DEFAULT_UNIT_OF_MEASURE.toString())));
+                .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)));
     }
 
     @Test
@@ -158,8 +118,7 @@ public class IngredientResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(ingredient.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.unitOfMeasure").value(DEFAULT_UNIT_OF_MEASURE.toString()));
+            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY));
     }
 
     @Test
@@ -180,8 +139,7 @@ public class IngredientResourceIntTest {
         // Update the ingredient
         Ingredient updatedIngredient = new Ingredient();
         updatedIngredient.setId(ingredient.getId());
-        updatedIngredient.setName(UPDATED_NAME);
-        updatedIngredient.setUnitOfMeasure(UPDATED_UNIT_OF_MEASURE);
+        updatedIngredient.setQuantity(UPDATED_QUANTITY);
 
         restIngredientMockMvc.perform(put("/api/ingredients")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -192,8 +150,7 @@ public class IngredientResourceIntTest {
         List<Ingredient> ingredients = ingredientRepository.findAll();
         assertThat(ingredients).hasSize(databaseSizeBeforeUpdate);
         Ingredient testIngredient = ingredients.get(ingredients.size() - 1);
-        assertThat(testIngredient.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testIngredient.getUnitOfMeasure()).isEqualTo(UPDATED_UNIT_OF_MEASURE);
+        assertThat(testIngredient.getQuantity()).isEqualTo(UPDATED_QUANTITY);
     }
 
     @Test

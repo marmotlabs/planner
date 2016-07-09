@@ -2,6 +2,13 @@
   "relationships": [
     {
       "relationshipId": 1,
+      "relationshipType": "many-to-one",
+      "relationshipName": "product",
+      "otherEntityName": "product",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipId": 2,
       "relationshipType": "many-to-many",
       "relationshipName": "recipe",
       "otherEntityName": "recipe",
@@ -12,19 +19,8 @@
   "fields": [
     {
       "fieldId": 1,
-      "fieldName": "name",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
-    },
-    {
-      "fieldId": 2,
-      "fieldName": "unitOfMeasure",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldName": "quantity",
+      "fieldType": "Integer"
     }
   ],
   "changelogDate": "20160709192938",

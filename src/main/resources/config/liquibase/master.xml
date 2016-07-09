@@ -8,8 +8,10 @@
     <include file="classpath:config/liquibase/changelog/20160709192938_added_entity_Ingredient.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160709192939_added_entity_Recipe.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160709192940_added_entity_Planner.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160709195704_added_entity_Product.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20160709192939_added_entity_constraints_Recipe.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20160709192940_added_entity_constraints_Planner.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20160709192938_added_entity_constraints_Ingredient.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
