@@ -82,7 +82,7 @@
 
         <div class="form-group">
             <label translate="plannerApp.recipe.ingredient" for="field_ingredient">Ingredient</label>
-            <select class="form-control" id="field_ingredient" multiple name="ingredient" ng-model="vm.recipe.ingredients" ng-options="ingredient as ingredient.product.name for ingredient in vm.ingredients track by ingredient.id"></select>
+            <select class="form-control" id="field_ingredient" multiple name="ingredient" ng-model="vm.recipe.ingredients" ng-options="ingredient as ingredient.product.unitOfMeasure  + ' ' + ingredient.product.name for ingredient in vm.ingredients track by ingredient.id"></select>
         </div>
     </div>
     <div class="modal-footer">
