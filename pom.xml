@@ -63,6 +63,9 @@
         <!-- These remain empty unless the corresponding profile is active -->
         <profile.no-liquibase></profile.no-liquibase>
         <profile.no-swagger></profile.no-swagger>
+
+        <!-- Flyway -->
+        <ver.flyway.core>4.1.0</ver.flyway.core>
     </properties>
 
     <dependencies>
@@ -71,6 +74,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
+        </dependency>
+        <!-- Flyway -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${ver.flyway.core}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
