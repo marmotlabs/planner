@@ -18,16 +18,13 @@ spring:
         livereload:
             enabled: false # we use gulp + BrowserSync for livereload
     datasource:
-        url: jdbc:h2:mem:planner;DB_CLOSE_DELAY=-1
-        name:
-        username: planner
-        password:
-    h2:
-        console:
-            enabled: false
+        url: jdbc:postgresql://localhost:5432/marmotlabs
+        name: marmotlabs
+        username: marmotlabs
+        password: marmotlabs
     jpa:
-        database-platform: eu.marmotlabs.planner.domain.util.FixedH2Dialect
-        database: H2
+        database-platform: eu.marmotlabs.planner.domain.util.FixedPostgreSQL82Dialect
+        database: POSTGRESQL
         show_sql: true
         properties:
             hibernate.cache.use_second_level_cache: true
